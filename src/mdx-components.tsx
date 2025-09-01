@@ -2,49 +2,49 @@ import Gallery from "./components/Gallery";
 
 const mdxComponents = {
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="container" {...props} />
+    <h1 className="max-w-3xl mx-auto" {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="container" {...props} />
+    <h2 className="max-w-3xl mx-auto" {...props} />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="container" {...props} />
+    <h3 className="max-w-3xl mx-auto" {...props} />
   ),
   h4: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="container" {...props} />
+    <h4 className="max-w-3xl mx-auto" {...props} />
   ),
   h5: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h5 className="container" {...props} />
+    <h5 className="max-w-3xl mx-auto" {...props} />
   ),
   h6: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h6 className="container" {...props} />
+    <h6 className="max-w-3xl mx-auto" {...props} />
   ),
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="container" {...props} />
+    <p className="max-w-3xl mx-auto" {...props} />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="container" {...props} />
+    <ul className="max-w-3xl mx-auto" {...props} />
   ),
   ol: (props: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="container" {...props} />
+    <ol className="max-w-3xl mx-auto" {...props} />
   ),
   blockquote: (props: React.HTMLAttributes<HTMLQuoteElement>) => (
-    <blockquote className="container" {...props} />
+    <blockquote className="max-w-3xl mx-auto" {...props} />
   ),
   pre: (props: React.HTMLAttributes<HTMLPreElement>) => (
-    <pre className="container" {...props} />
+    <pre className="max-w-3xl mx-auto" {...props} />
   ),
   code: (props: React.HTMLAttributes<HTMLElement>) => (
-    <code className="container" {...props} />
+    <code className="max-w-3xl mx-auto" {...props} />
   ),
   img: (props: React.HTMLAttributes<HTMLImageElement>) => (
-    <img className="container" {...props} />
+    <img className="max-w-3xl mx-auto" {...props} />
   ),
   hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
-    <hr className="container" {...props} />
+    <hr className="max-w-3xl mx-auto" {...props} />
   ),
   a: (props: React.HTMLAttributes<HTMLAnchorElement>) => (
-    <a className="container" {...props} />
+    <a className="max-w-3xl mx-auto" {...props} />
   ),
   Gallery,
 };
