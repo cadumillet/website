@@ -32,6 +32,7 @@ export default function ProjectPage({
     color: frontMatter.textColor,
     backgroundColor: frontMatter.backgroundColor,
     fontFamily: frontMatter.fontFamily,
+    "--content-spacing": frontMatter.padding,
   };
   return (
     <main className="markdown" style={style}>
