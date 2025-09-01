@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ImagePreview from "./ImagePreview";
 
 type Props = {
   images: string[];
@@ -17,6 +18,18 @@ export default function Gallery({
   // Used to make each grid row have a uniform height that adapts to the widest
   // image in that row.
   const [ratios, setRatios] = useState<number[]>([]);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+
+  const renderPreviewOverlay = () => {
+    if (previewIndex === null) return null;
+    return (
+      <ImagePreview
+        images={images}
+        initialIndex={previewIndex}
+        onClose={() => setPreviewIndex(null)}
+      />
+    );
+  };
   if (images.length === 1) {
     return (
       <div
@@ -25,7 +38,13 @@ export default function Gallery({
           marginBottom: "var(--content-spacing, 1.5rem)",
         }}
       >
-        <img src={images[0]} className="w-full" alt="" />
+        <img
+          src={images[0]}
+          className="w-full cursor-zoom-in"
+          alt=""
+          onClick={() => setPreviewIndex(0)}
+        />
+        {renderPreviewOverlay()}
       </div>
     );
   }
@@ -57,18 +76,19 @@ export default function Gallery({
         return (
           <div
             key={i}
-            className="w-full overflow-hidden"
+            className="w-full overflow-hidden cursor-zoom-in"
             style={{ aspectRatio: targetAspectRatio }}
           >
             <img
               src={src}
               alt=""
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
               // object-cover: if a row mixes wide (e.g. 16/9) and tall (e.g. 3/4)
               // images, tall images will be cropped vertically to match the row
               // height (set by the widest image). When all images in a row are
               // tall and share similar ratios, no cropping occurs because the
               // row aspect matches them.
+              onClick={() => setPreviewIndex(i)}
               onLoad={(e) => {
                 const img = e.currentTarget;
                 const aspect = img.naturalWidth / img.naturalHeight;
@@ -82,6 +102,7 @@ export default function Gallery({
           </div>
         );
       })}
+      {renderPreviewOverlay()}
     </div>
   );
 }

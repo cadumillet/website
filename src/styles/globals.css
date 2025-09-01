@@ -31,3 +31,12 @@ body {
     margin-right: auto;
   }
 }
+
+/* Utility: hide scrollbars but allow scrolling */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
