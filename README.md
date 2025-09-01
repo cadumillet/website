@@ -1,40 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+## Personal Archive / Blog / Portfolio
 
-## Getting Started
+Next.js (Pages Router) site for publishing MDX-based entries that double as an archive, blog, and portfolio.
 
-First, run the development server:
+### Content model
+- **Location**: `src/content/YYYYMM/NNN.mdx`
+- **Slug**: derived from file path (e.g., `202501/001`)
+- **Front matter**: common fields include `title`, `thumbnail`, `textColor`, `backgroundColor`, `fontFamily`, `padding`, `basePath`.
 
+### Sorting
+Projects are ordered by folder and filename, newest first:
+1. Desc by `YYYYMM` (month)
+2. Desc by `NNN` (entry within the month)
+
+Implemented in `src/lib/mdx.ts` via `getAllProjects()`.
+
+### Gallery behavior
+`src/components/Gallery.tsx` lays out images in a grid with per-row uniform height:
+- Each row’s height is set by the widest image’s aspect ratio in that row.
+- Mixed orientations: tall images are cropped to match the row height (`object-cover`).
+- All-tall rows: no cropping when ratios align.
+
+### Local development
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Adding a new entry
+Create a file like `src/content/202501/002.mdx`:
+```mdx
+---
+title: My Entry
+thumbnail: /path/to/thumb.jpg
+textColor: '#111'
+backgroundColor: '#fafafa'
+fontFamily: 'Georgia, serif'
+padding: '1.5rem'
+basePath: '/assets/my-entry'
+---
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+# Heading
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<Gallery images={["/assets/my-entry/01.jpg", "/assets/my-entry/02.jpg"]} columns={3} />
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Some MDX content here.
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Pages
+- `src/pages/index.tsx`: lists projects (uses `getAllProjects()` sorting)
+- `src/pages/projects/[...slug].tsx`: renders MDX per slug with custom components
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## Next steps (TODO)
+- [ ] **Global Search and filtering**: client-side search across titles and front matter
+- [ ] **Element Metadata**: allow image cropping/scaling and text format
+- [ ] **Content**: tags, gear/tools used, location
+- [ ] **Pagination**: paginate or infinite-scroll projects on `index.tsx`
+- [ ] **Images**: migrate to `next/image` with responsive sizes and blur placeholders
+- [ ] **Lightbox**: open gallery images in modal with keyboard navigation
+- [ ] **SEO**: dynamic meta, OpenGraph/Twitter cards, sitemap, canonical URLs
+- [ ] **Feeds**: RSS/Atom/JSON feed generated from MDX front matter
+- [ ] **Drafts**: support `draft: true` and preview mode
+- [ ] **Analytics**: simple privacy-friendly analytics integration
+- [ ] **A11y**: audit alt text, focus states, and keyboard traps in modals
+- [ ] **Performance**: image prefetching for thumbnails and near-fold content
+- [ ] **Theming**: optional dark mode and per-entry theme overrides
+- [ ] **Build**: CI checks (typecheck, lint) and deploy preview configuration
+- [ ] **i18n**: basic internationalization, if needed
