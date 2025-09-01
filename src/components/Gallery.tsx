@@ -13,7 +13,12 @@ export default function Gallery({
 }: Props) {
   if (images.length === 1) {
     return (
-      <div style={{ padding: fullWidth ? undefined : padding }}>
+      <div
+        style={{
+          paddingInline: fullWidth ? undefined : padding,
+          marginBottom: "var(--content-spacing, 1.5rem)",
+        }}
+      >
         <img src={images[0]} className="w-full" alt="" />
       </div>
     );
@@ -21,10 +26,11 @@ export default function Gallery({
 
   return (
     <div
-      className="grid gap-4 items-stretch"
+      className="grid gap-1 items-stretch"
       style={{
-        padding: fullWidth ? undefined : padding,
+        paddingInline: fullWidth ? undefined : padding,
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        marginBottom: "var(--content-spacing, 1.5rem)",
       }}
     >
       {images.map((src, i) => (

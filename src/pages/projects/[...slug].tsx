@@ -5,19 +5,19 @@ import mdxComponents from "@/mdx-components";
 import Gallery from "@/components/Gallery";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const slugs = getProjectSlugs();
+  const slugs = getProjectSlugs(); // e.g. ['photography/project-a.mdx']
   return {
     paths: slugs.map((slug) => ({
-      params: { slug: slug.replace(/\.mdx$/, "") },
+      params: { slug: slug.replace(/\.mdx$/, "").split("/") }, // → ['photography', 'project-a']
     })),
     fallback: false,
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const { mdxSource, frontMatter } = await getSerializedProject(
-    params?.slug as string
-  );
+  const slugArray = params?.slug as string[]; // ['photography', 'project-a']
+  const slug = slugArray.join("/"); // 'photography/project-a'
+  const { mdxSource, frontMatter } = await getSerializedProject(slug);
   return { props: { mdxSource, frontMatter } };
 };
 
