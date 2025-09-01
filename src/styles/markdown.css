@@ -3,6 +3,7 @@
 .markdown {
   line-height: 1.75;
   font-size: 1rem;
+  padding-bottom: var(--content-spacing, 1.5rem);
 }
 
 /* Global vertical rhythm using CSS variable set per-page */
@@ -14,9 +15,13 @@
 .markdown blockquote,
 .markdown pre,
 .markdown code,
-.markdown img,
 .markdown hr {
   margin-bottom: var(--content-spacing, 1.5rem);
+}
+
+/* Prevent double spacing by moving final spacing to the container */
+.markdown > *:last-child {
+  margin-bottom: 0 !important;
 }
 
 /* Headings */

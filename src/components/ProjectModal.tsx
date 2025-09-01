@@ -33,9 +33,9 @@ export default function ProjectModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto"
+      className="fixed inset-0 z-50 overflow-y-auto py-15"
       style={{
-        backgroundColor: project.frontMatter.backgroundColor + "80",
+        backgroundColor: "#00000030",
       }}
       onClick={onClose}
     >
