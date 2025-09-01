@@ -43,14 +43,22 @@ export default function Home({ projects }: { projects: Project[] }) {
 
   return (
     <main className="container">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1 p-12">
         {projects.map((project: Project) => (
           <button
             key={project.slug}
             onClick={() => openModal(project.slug)}
-            className="text-left"
+            className="group relative text-left cursor-pointer focus:outline-none aspect-square overflow-hidden"
           >
-            <img src={project.thumbnail} className="w-full" />
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className="w-full h-full block object-cover"
+            />
+            <span className="pointer-events-none absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
+            <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-white text-sm font-medium opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              {project.slug}
+            </span>
           </button>
         ))}
       </div>

@@ -40,7 +40,7 @@ export default function ProjectModal({
       onClick={onClose}
     >
       <div
-        className="relative max-w-7xl mx-auto markdown"
+        className="relative max-w-7xl mx-auto shadow-2xl markdown"
         style={style}
         onClick={(e) => e.stopPropagation()}
       >
