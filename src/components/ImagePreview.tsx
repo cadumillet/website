@@ -42,10 +42,9 @@ export default function ImagePreview({ images, initialIndex, onClose }: Props) {
       <div
         className={`${
           fitMode === "width"
-            ? "max-w-[min(90vw,1400px)] max-h-[90vh]"
-            : "h-[90vh] max-w-[90vw]"
-        } overflow-auto no-scrollbar`}
-        onClick={(e) => e.stopPropagation()}
+            ? "w-screen h-screen overflow-y-auto overflow-x-hidden"
+            : "w-screen h-screen overflow-x-auto overflow-y-hidden"
+        } no-scrollbar flex items-center justify-center`}
       >
         <img
           src={src}
@@ -55,9 +54,10 @@ export default function ImagePreview({ images, initialIndex, onClose }: Props) {
           } object-contain ${
             fitMode === "width" ? "cursor-zoom-out" : "cursor-zoom-in"
           }`}
-          onClick={() =>
-            setFitMode((m) => (m === "width" ? "height" : "width"))
-          }
+          onClick={(e) => {
+            e.stopPropagation();
+            setFitMode((m) => (m === "width" ? "height" : "width"));
+          }}
         />
       </div>
       {images.length > 1 && null}
