@@ -8,6 +8,7 @@ type Props = {
 
 export default function ImagePreview({ images, initialIndex, onClose }: Props) {
   const [index, setIndex] = useState(initialIndex);
+  const [fitMode, setFitMode] = useState<"width" | "height">("height");
 
   useEffect(() => {
     setIndex(initialIndex);
@@ -34,45 +35,32 @@ export default function ImagePreview({ images, initialIndex, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black"
       onClick={onClose}
     >
-      {images.length > 1 && (
-        <button
-          aria-label="Previous image"
-          className="absolute left-0 top-0 h-full w-1/5 md:w-1/6 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIndex((i) => (i - 1 + images.length) % images.length);
-          }}
-        />
-      )}
+      {images.length > 1 && null}
       <div
-        className="max-w-[min(90vw,1400px)] max-h-[90vh] overflow-y-auto no-scrollbar"
+        className={`${
+          fitMode === "width"
+            ? "max-w-[min(90vw,1400px)] max-h-[90vh]"
+            : "h-[90vh] max-w-[90vw]"
+        } overflow-auto no-scrollbar`}
         onClick={(e) => e.stopPropagation()}
       >
-        <img src={src} alt="" className="w-full h-full object-contain" />
-      </div>
-      {images.length > 1 && (
-        <button
-          aria-label="Next image"
-          className="absolute right-0 top-0 h-full w-1/5 md:w-1/6 cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            setIndex((i) => (i + 1) % images.length);
-          }}
+        <img
+          src={src}
+          alt=""
+          className={`${
+            fitMode === "width" ? "w-full h-auto" : "h-full w-auto"
+          } object-contain ${
+            fitMode === "width" ? "cursor-zoom-out" : "cursor-zoom-in"
+          }`}
+          onClick={() =>
+            setFitMode((m) => (m === "width" ? "height" : "width"))
+          }
         />
-      )}
-      <button
-        aria-label="Close"
-        className="absolute top-3 right-3 text-white/80 hover:text-white text-xl"
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-      >
-        ×
-      </button>
+      </div>
+      {images.length > 1 && null}
     </div>
   );
 }

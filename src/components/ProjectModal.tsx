@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import mdxComponents from "@/mdx-components";
 import Gallery from "./Gallery";
+import { ImagePreviewProvider } from "./ImagePreviewProvider";
 
 export default function ProjectModal({
   slug,
@@ -32,28 +33,30 @@ export default function ProjectModal({
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 overflow-y-auto py-15"
-      style={{
-        backgroundColor: "#00000030",
-      }}
-      onClick={onClose}
-    >
+    <ImagePreviewProvider>
       <div
-        className="relative max-w-7xl mx-auto shadow-2xl markdown"
-        style={style}
-        onClick={(e) => e.stopPropagation()}
+        className="fixed inset-0 z-50 overflow-y-auto py-15"
+        style={{
+          backgroundColor: "#00000030",
+        }}
+        onClick={onClose}
       >
-        <MDXRemote
-          {...project.mdxSource}
-          components={{
-            ...mdxComponents,
-            Gallery: (props) => (
-              <Gallery padding={project.frontMatter.padding} {...props} />
-            ),
-          }}
-        />
+        <div
+          className="relative max-w-7xl mx-auto shadow-2xl markdown"
+          style={style}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <MDXRemote
+            {...project.mdxSource}
+            components={{
+              ...mdxComponents,
+              Gallery: (props) => (
+                <Gallery padding={project.frontMatter.padding} {...props} />
+              ),
+            }}
+          />
+        </div>
       </div>
-    </div>
+    </ImagePreviewProvider>
   );
 }

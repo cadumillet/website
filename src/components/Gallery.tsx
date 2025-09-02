@@ -1,5 +1,5 @@
-import { useState } from "react";
-import ImagePreview from "./ImagePreview";
+import { useEffect, useRef, useState } from "react";
+import { useImagePreviewContext } from "./ImagePreviewProvider";
 
 type Props = {
   images: string[];
@@ -18,18 +18,16 @@ export default function Gallery({
   // Used to make each grid row have a uniform height that adapts to the widest
   // image in that row.
   const [ratios, setRatios] = useState<number[]>([]);
-  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
-
-  const renderPreviewOverlay = () => {
-    if (previewIndex === null) return null;
-    return (
-      <ImagePreview
-        images={images}
-        initialIndex={previewIndex}
-        onClose={() => setPreviewIndex(null)}
-      />
-    );
-  };
+  const previewCtx = useImagePreviewContext();
+  const galleryIdRef = useRef<number | null>(null);
+  useEffect(() => {
+    if (!previewCtx) return;
+    galleryIdRef.current = previewCtx.registerGallery(images);
+    return () => {
+      if (galleryIdRef.current !== null)
+        previewCtx.unregisterGallery(galleryIdRef.current);
+    };
+  }, [images, previewCtx]);
   if (images.length === 1) {
     return (
       <div
@@ -40,11 +38,10 @@ export default function Gallery({
       >
         <img
           src={images[0]}
-          className="w-full cursor-zoom-in"
+          className="w-full cursor-pointer"
           alt=""
-          onClick={() => setPreviewIndex(0)}
+          onClick={() => previewCtx?.openAt(galleryIdRef.current!, 0)}
         />
-        {renderPreviewOverlay()}
       </div>
     );
   }
@@ -76,19 +73,19 @@ export default function Gallery({
         return (
           <div
             key={i}
-            className="w-full overflow-hidden cursor-zoom-in"
+            className="w-full overflow-hidden cursor-pointer"
             style={{ aspectRatio: targetAspectRatio }}
           >
             <img
               src={src}
               alt=""
-              className="w-full h-full object-contain"
+              className="w-full h-full object-cover"
               // object-cover: if a row mixes wide (e.g. 16/9) and tall (e.g. 3/4)
               // images, tall images will be cropped vertically to match the row
               // height (set by the widest image). When all images in a row are
               // tall and share similar ratios, no cropping occurs because the
               // row aspect matches them.
-              onClick={() => setPreviewIndex(i)}
+              onClick={() => previewCtx?.openAt(galleryIdRef.current!, i)}
               onLoad={(e) => {
                 const img = e.currentTarget;
                 const aspect = img.naturalWidth / img.naturalHeight;
@@ -102,7 +99,6 @@ export default function Gallery({
           </div>
         );
       })}
-      {renderPreviewOverlay()}
     </div>
   );
 }

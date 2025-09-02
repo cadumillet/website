@@ -3,6 +3,7 @@ import { getProjectSlugs, getSerializedProject } from "@/lib/mdx";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import mdxComponents from "@/mdx-components";
 import Gallery from "@/components/Gallery";
+import { ImagePreviewProvider } from "@/components/ImagePreviewProvider";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const slugs = getProjectSlugs(); // e.g. ['photography/project-a.mdx']
@@ -35,16 +36,18 @@ export default function ProjectPage({
     "--content-spacing": frontMatter.padding,
   };
   return (
-    <main className="markdown" style={style}>
-      <MDXRemote
-        {...mdxSource}
-        components={{
-          ...mdxComponents,
-          Gallery: (props) => (
-            <Gallery padding={frontMatter.padding} {...props} />
-          ),
-        }}
-      />
-    </main>
+    <ImagePreviewProvider>
+      <main className="markdown" style={style}>
+        <MDXRemote
+          {...mdxSource}
+          components={{
+            ...mdxComponents,
+            Gallery: (props) => (
+              <Gallery padding={frontMatter.padding} {...props} />
+            ),
+          }}
+        />
+      </main>
+    </ImagePreviewProvider>
   );
 }
