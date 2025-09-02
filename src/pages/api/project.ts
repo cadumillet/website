@@ -13,7 +13,8 @@ export default async function handler(
   try {
     const data = await getSerializedProject(slug);
     res.status(200).json(data);
-  } catch (err: any) {
-    res.status(404).json({ error: "Not found", details: err?.message });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    res.status(404).json({ error: "Not found", details: message });
   }
 }

@@ -1,5 +1,4 @@
 import { getAllProjects } from "@/lib/mdx";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";

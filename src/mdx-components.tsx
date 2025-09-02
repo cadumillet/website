@@ -37,8 +37,8 @@ const mdxComponents = {
   code: (props: React.HTMLAttributes<HTMLElement>) => (
     <code className="max-w-3xl mx-auto" {...props} />
   ),
-  img: (props: React.HTMLAttributes<HTMLImageElement>) => (
-    <img className="max-w-3xl mx-auto" {...props} />
+  img: (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    <img className="max-w-3xl mx-auto" alt={props.alt ?? ""} {...props} />
   ),
   hr: (props: React.HTMLAttributes<HTMLHRElement>) => (
     <hr className="max-w-3xl mx-auto" {...props} />

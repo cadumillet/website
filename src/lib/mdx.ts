@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
+import type { MDXRemoteSerializeResult } from "next-mdx-remote";
 import glob from "fast-glob";
 
 const contentPath = path.join(process.cwd(), "src/content");
@@ -18,6 +19,18 @@ export function getProjectBySlug(slug: string) {
   return { content, data };
 }
 
+export type FrontMatter = {
+  title: string;
+  thumbnail: string;
+  date: string;
+  type: string;
+  textColor: string;
+  backgroundColor: string;
+  padding: string;
+  basePath?: string;
+  fontFamily?: string;
+};
+
 export async function getSerializedProject(slug: string) {
   const { content, data } = getProjectBySlug(slug);
   const mdxSource = await serialize(content, {
@@ -25,7 +38,10 @@ export async function getSerializedProject(slug: string) {
       basePath: data.basePath,
     },
   });
-  return { mdxSource, frontMatter: data };
+  return {
+    mdxSource: mdxSource as MDXRemoteSerializeResult,
+    frontMatter: data as FrontMatter,
+  };
 }
 
 export function getAllProjects() {
@@ -53,7 +69,7 @@ export function getAllProjects() {
     return { yyyymm, index };
   };
 
-  projects.sort((a: any, b: any) => {
+  projects.sort((a: { slug: string }, b: { slug: string }) => {
     const A = parseSlugForSort(a.slug);
     const B = parseSlugForSort(b.slug);
     if (A.yyyymm !== B.yyyymm) return B.yyyymm - A.yyyymm;

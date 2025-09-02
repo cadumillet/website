@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { getProjectSlugs, getSerializedProject } from "@/lib/mdx";
+import type { FrontMatter } from "@/lib/mdx";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import mdxComponents from "@/mdx-components";
 import Gallery from "@/components/Gallery";
@@ -27,7 +28,7 @@ export default function ProjectPage({
   frontMatter,
 }: {
   mdxSource: MDXRemoteSerializeResult;
-  frontMatter: any;
+  frontMatter: FrontMatter;
 }) {
   const style = {
     color: frontMatter.textColor,

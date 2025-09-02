@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
+import type { FrontMatter } from "@/lib/mdx";
 import mdxComponents from "@/mdx-components";
 import Gallery from "./Gallery";
 import { ImagePreviewProvider } from "./ImagePreviewProvider";
@@ -13,7 +14,7 @@ export default function ProjectModal({
 }) {
   const [project, setProject] = useState<{
     mdxSource: MDXRemoteSerializeResult;
-    frontMatter: any;
+    frontMatter: FrontMatter;
   } | null>(null);
 
   useEffect(() => {
