@@ -53,7 +53,6 @@ Some MDX content here.
 
 ## Next steps (TODO)
 - [ ] **Custom font**: set fontFamily in metadata or per text block
-- [ ] **CLI new entry**: add new post via command line
 - [ ] **Global Search and filtering**: client-side search across titles and front matter
 - [ ] **Element Metadata**: allow image cropping/scaling and text format
 - [ ] **Content**: tags, gear/tools used, location
