@@ -41,13 +41,13 @@ export default function Home({ projects }: { projects: Project[] }) {
   };
 
   return (
-    <main className="container">
+    <main className="container mx-auto">
       <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-0.5 p-1 lg:p-15">
         {projects.map((project: Project) => (
           <button
             key={project.slug}
             onClick={() => openModal(project.slug)}
-            className="group relative text-left cursor-pointer focus:outline-none aspect-square overflow-hidden"
+            className="group relative text-left cursor-pointer focus:outline-none aspect-[4/3] overflow-hidden"
           >
             <img
               src={project.thumbnail}
