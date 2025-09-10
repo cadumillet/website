@@ -9,9 +9,11 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 export default function ProjectModal({
   slug,
   onClose,
+  onLoaded,
 }: {
   slug: string;
   onClose: () => void;
+  onLoaded?: () => void;
 }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [project, setProject] = useState<{
@@ -22,9 +24,15 @@ export default function ProjectModal({
   useEffect(() => {
     fetch(`/api/project?slug=${encodeURIComponent(slug)}`)
       .then((r) => (r.ok ? r.json() : Promise.reject(r)))
-      .then(setProject)
-      .catch(() => setProject(null));
-  }, [slug]);
+      .then((data) => {
+        setProject(data);
+        onLoaded?.();
+      })
+      .catch(() => {
+        setProject(null);
+        onLoaded?.();
+      });
+  }, [slug, onLoaded]);
 
   const shortcuts = useMemo(
     () => [
