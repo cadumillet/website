@@ -8,12 +8,14 @@ export type KeyboardShortcut = {
   alt?: boolean;
   meta?: boolean;
   preventDefault?: boolean; // defaults to true
+  stopPropagation?: boolean; // defaults to true
   when?: boolean; // defaults to true
 };
 
 type UseKeyboardShortcutsOptions = {
   enabled?: boolean;
   target?: Window | Document | HTMLElement;
+  useCapture?: boolean; // if true, listener runs in capture phase (priority)
 };
 
 function normalizeKey(key: string): string {
@@ -26,7 +28,7 @@ export function useKeyboardShortcuts(
   shortcuts: KeyboardShortcut[] | null | undefined,
   options?: UseKeyboardShortcutsOptions
 ): void {
-  const { enabled = true, target } = options ?? {};
+  const { enabled = true, target, useCapture = false } = options ?? {};
 
   useEffect(() => {
     if (!enabled || !shortcuts || shortcuts.length === 0) return;
@@ -52,6 +54,14 @@ export function useKeyboardShortcuts(
           if (s.preventDefault !== false) {
             event.preventDefault();
           }
+          if (s.stopPropagation !== false) {
+            event.stopPropagation();
+            // stopImmediatePropagation is not in TS lib types for KeyboardEvent
+            // but it exists in browsers; cast to any to invoke safely.
+            (
+              event as unknown as { stopImmediatePropagation?: () => void }
+            ).stopImmediatePropagation?.();
+          }
           s.handler(event);
           break;
         }
@@ -59,10 +69,18 @@ export function useKeyboardShortcuts(
     };
 
     const targetEl: Window | Document | HTMLElement = target ?? window;
-    targetEl.addEventListener("keydown", handleKeyDown as EventListener);
+    targetEl.addEventListener("keydown", handleKeyDown as EventListener, {
+      capture: useCapture,
+    });
 
     return () => {
-      targetEl.removeEventListener("keydown", handleKeyDown as EventListener);
+      targetEl.removeEventListener(
+        "keydown",
+        handleKeyDown as EventListener,
+        {
+          capture: useCapture,
+        } as unknown as boolean
+      );
     };
-  }, [enabled, target, ...(shortcuts ?? [])]);
+  }, [enabled, target, useCapture, ...(shortcuts ?? [])]);
 }

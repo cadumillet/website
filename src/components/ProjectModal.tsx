@@ -57,6 +57,7 @@ export default function ProjectModal({
         className={`fixed inset-0 z-50 overflow-y-auto ${
           isFullscreen ? "py-0" : "py-15"
         }`}
+        data-project-modal-scroll
         onClick={onClose}
       >
         <div

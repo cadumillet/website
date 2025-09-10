@@ -1,7 +1,12 @@
 export default {
   content: ["./src/**/*.{ts,tsx,mdx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-geist-sans)"],
+        mono: ["var(--font-geist-mono)"],
+      },
+    },
   },
   safelist: [
     "columns-1",

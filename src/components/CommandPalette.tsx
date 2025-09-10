@@ -34,8 +34,18 @@ export default function CommandPalette() {
         when: open,
       },
     ],
-    { enabled: true }
+    { enabled: true, useCapture: true }
   );
+
+  // Lock body scroll while palette is open
+  useEffect(() => {
+    if (!open) return;
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = original;
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -97,9 +107,34 @@ export default function CommandPalette() {
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
       onClick={() => setOpen(false)}
+      onWheel={(e) => {
+        const target = document.querySelector(
+          "[data-project-modal-scroll]"
+        ) as HTMLElement | null;
+        if (target) {
+          e.preventDefault();
+          target.scrollBy({ top: e.deltaY, behavior: "auto" });
+        }
+      }}
+      onTouchMove={(e) => {
+        const touch = e.touches[0];
+        if (!touch) return;
+        const target = document.querySelector(
+          "[data-project-modal-scroll]"
+        ) as HTMLElement | null;
+        if (target) {
+          // Let default touch scrolling occur inside modal content only
+          // Prevent background scroll by canceling here
+          e.preventDefault();
+        }
+      }}
+      onScroll={(e) => {
+        // Prevent document scroll while palette is open
+        e.preventDefault();
+      }}
     >
       <div
-        className="w-full max-w-2xl rounded-xl bg-white/70 backdrop-blur-md text-black shadow-2xl overflow-hidden border border-gray-200"
+        className="w-full max-w-2xl rounded-xl bg-white/80 backdrop-blur-md text-black shadow-2xl overflow-hidden border border-gray-200 flex flex-col h-[28rem] max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={onKeyDownList}
       >
@@ -112,7 +147,7 @@ export default function CommandPalette() {
             className="w-full bg-transparent outline-none placeholder-gray-400 text-base"
           />
         </div>
-        <div className="max-h-[60vh] overflow-y-auto">
+        <div className="flex-1 overflow-y-auto">
           {filtered.length === 0 ? (
             <div className="p-4 text-sm text-gray-500">No results</div>
           ) : (
@@ -158,6 +193,23 @@ export default function CommandPalette() {
               ))}
             </ul>
           )}
+        </div>
+        <div className="border-t border-gray-200 bg-white/60 backdrop-blur-sm px-3 py-2 text-xs text-gray-600 flex items-center gap-4">
+          <span className="text-[10px] uppercase tracking-wide text-gray-500">
+            Project shortcuts:
+          </span>
+          <div className="flex items-center gap-2">
+            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
+              F
+            </kbd>
+            <span>Fullscreen</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
+              ?
+            </kbd>
+            <span>Info</span>
+          </div>
         </div>
       </div>
     </div>
