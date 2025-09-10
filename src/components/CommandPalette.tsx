@@ -95,11 +95,11 @@ export default function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/50 p-4 md:p-10"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-10"
       onClick={() => setOpen(false)}
     >
       <div
-        className="w-full max-w-2xl rounded-xl bg-white text-black shadow-2xl overflow-hidden"
+        className="w-full max-w-2xl rounded-xl bg-white/70 backdrop-blur-md text-black shadow-2xl overflow-hidden border border-gray-200"
         onClick={(e) => e.stopPropagation()}
         onKeyDown={onKeyDownList}
       >
@@ -116,13 +116,11 @@ export default function CommandPalette() {
           {filtered.length === 0 ? (
             <div className="p-4 text-sm text-gray-500">No results</div>
           ) : (
-            <ul className="divide-y divide-gray-100">
+            <ul className="p-1">
               {filtered.map((item, idx) => (
                 <li
                   key={item.slug}
-                  className={`flex items-center gap-3 p-3 cursor-pointer ${
-                    idx === activeIndex ? "bg-gray-100" : ""
-                  }`}
+                  className="p-1"
                   onMouseEnter={() => setActiveIndex(idx)}
                   onClick={() => {
                     setOpen(false);
@@ -133,22 +131,28 @@ export default function CommandPalette() {
                     );
                   }}
                 >
-                  {item.thumbnail ? (
-                    <img
-                      src={item.thumbnail}
-                      alt=""
-                      className="h-8 w-8 rounded object-cover"
-                    />
-                  ) : (
-                    <div className="h-8 w-8 rounded bg-gray-200" />
-                  )}
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-medium">
-                      {item.title || item.slug}
+                  <div
+                    className={`flex items-center gap-3 rounded-md p-2 cursor-pointer ${
+                      idx === activeIndex ? "bg-gray-100" : "hover:bg-gray-50"
+                    }`}
+                  >
+                    {item.thumbnail ? (
+                      <img
+                        src={item.thumbnail}
+                        alt=""
+                        className="h-8 w-8 rounded object-cover"
+                      />
+                    ) : (
+                      <div className="h-8 w-8 rounded bg-gray-200" />
+                    )}
+                    <div className="min-w-0">
+                      <div className="truncate text-sm font-medium">
+                        {item.title || item.slug}
+                      </div>
                     </div>
-                    <div className="truncate text-xs text-gray-500">
+                    <span className="ml-auto truncate text-xs text-gray-500">
                       {item.slug}
-                    </div>
+                    </span>
                   </div>
                 </li>
               ))}
