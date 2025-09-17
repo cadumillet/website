@@ -1,4 +1,6 @@
-export default {
+import typography from "@tailwindcss/typography";
+
+const config = {
   content: ["./src/**/*.{ts,tsx,mdx}"],
   theme: {
     extend: {
@@ -16,5 +18,7 @@ export default {
     "columns-5",
     "columns-6",
   ],
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [typography],
 };
+
+export default config;
