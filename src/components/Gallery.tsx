@@ -28,11 +28,22 @@ export default function Gallery({
         previewCtx.unregisterGallery(galleryIdRef.current);
     };
   }, [images, previewCtx]);
+  // On <lg screens, enforce 20px horizontal padding; on lg+ use the padding prop unless fullWidth.
   if (images.length === 1) {
     return (
       <div
+        className={
+          fullWidth
+            ? "px-5 lg:px-0"
+            : "px-5 lg:[padding-inline:var(--gallery-padding)]"
+        }
         style={{
-          paddingInline: fullWidth ? undefined : padding,
+          ...(fullWidth
+            ? {}
+            : ({
+                ["--gallery-padding" as any]:
+                  typeof padding === "number" ? `${padding}px` : padding,
+              } as any)),
           marginBottom: "var(--content-spacing, 1.5rem)",
         }}
       >
@@ -48,9 +59,18 @@ export default function Gallery({
 
   return (
     <div
-      className="grid gap-1 items-start"
+      className={
+        fullWidth
+          ? "grid gap-1 items-start px-5 lg:px-0"
+          : "grid gap-1 items-start px-5 lg:[padding-inline:var(--gallery-padding)]"
+      }
       style={{
-        paddingInline: fullWidth ? undefined : padding,
+        ...(fullWidth
+          ? {}
+          : ({
+              ["--gallery-padding" as any]:
+                typeof padding === "number" ? `${padding}px` : padding,
+            } as any)),
         gridTemplateColumns: `repeat(${columns}, 1fr)`,
         marginBottom: "var(--content-spacing, 1.5rem)",
       }}

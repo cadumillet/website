@@ -57,8 +57,8 @@ export default function Home({ projects }: { projects: Project[] }) {
   };
 
   return (
-    <main className="container mx-auto">
-      <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-0.5 p-1 lg:p-15">
+    <main className="lg:container mx-auto">
+      <div className="mt-15 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-0.5">
         {projects.map((project: Project) => (
           <button
             key={project.slug}

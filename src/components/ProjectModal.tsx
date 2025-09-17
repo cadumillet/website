@@ -62,15 +62,17 @@ export default function ProjectModal({
   return (
     <ImagePreviewProvider>
       <div
-        className={`fixed inset-0 z-50 overflow-y-auto ${
-          isFullscreen ? "py-0" : "py-15"
+        className={`fixed inset-0 z-50 overflow-y-auto py-0 ${
+          isFullscreen ? "lg:py-0" : "lg:py-15"
         }`}
         data-project-modal-scroll
         onClick={onClose}
       >
         <div
-          className={`relative mx-auto shadow-2xl markdown ${
-            isFullscreen ? "max-w-none w-full min-h-screen" : "max-w-7xl"
+          className={`relative mx-auto shadow-2xl markdown max-w-none w-full min-h-screen ${
+            isFullscreen
+              ? "lg:max-w-none lg:w-full lg:min-h-screen"
+              : "lg:max-w-7xl lg:w-auto lg:min-h-0"
           }`}
           style={style}
           onClick={(e) => e.stopPropagation()}
