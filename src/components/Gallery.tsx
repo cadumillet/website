@@ -36,9 +36,7 @@ export default function Gallery({
     return (
       <div
         className={
-          fullWidth
-            ? "px-5 lg:px-0"
-            : "px-5 lg:[padding-inline:var(--gallery-padding)]"
+          fullWidth ? "px-0" : "px-5 lg:[padding-inline:var(--gallery-padding)]"
         }
         style={
           {
@@ -66,8 +64,8 @@ export default function Gallery({
     <div
       className={
         fullWidth
-          ? "grid gap-1 items-start px-5 lg:px-0"
-          : "grid gap-1 items-start px-5 lg:[padding-inline:var(--gallery-padding)]"
+          ? "grid gap-0.5 items-start px-0"
+          : "grid gap-0.5 items-start px-5 lg:[padding-inline:var(--gallery-padding)]"
       }
       style={
         {

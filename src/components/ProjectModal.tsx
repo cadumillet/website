@@ -62,7 +62,7 @@ export default function ProjectModal({
   return (
     <ImagePreviewProvider>
       <div
-        className={`fixed inset-0 z-50 overflow-y-auto py-0 ${
+        className={`fixed inset-0 z-50 overflow-y-auto py-0 bg-white ${
           isFullscreen ? "lg:py-0" : "lg:py-15"
         }`}
         data-project-modal-scroll
