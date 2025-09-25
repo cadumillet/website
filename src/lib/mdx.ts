@@ -26,7 +26,7 @@ export type FrontMatter = {
   type: string;
   textColor: string;
   backgroundColor: string;
-  padding: string;
+  padding?: string;
   basePath?: string;
   fontFamily?: string;
 };

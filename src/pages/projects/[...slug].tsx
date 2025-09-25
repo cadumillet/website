@@ -34,7 +34,6 @@ export default function ProjectPage({
     color: frontMatter.textColor,
     backgroundColor: frontMatter.backgroundColor,
     fontFamily: frontMatter.fontFamily,
-    "--content-spacing": frontMatter.padding,
   };
   return (
     <ImagePreviewProvider>
@@ -43,9 +42,7 @@ export default function ProjectPage({
           {...mdxSource}
           components={{
             ...mdxComponents,
-            Gallery: (props) => (
-              <Gallery padding={frontMatter.padding} {...props} />
-            ),
+            Gallery: (props) => <Gallery {...props} />,
           }}
         />
       </main>

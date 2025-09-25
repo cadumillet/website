@@ -1,20 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties } from "react";
 import { useImagePreviewContext } from "./ImagePreviewProvider";
 
 type Props = {
   images: string[];
   columns?: number;
-  padding?: string | number;
   fullWidth?: boolean;
 };
 
-export default function Gallery({
-  images,
-  columns = 3,
-  padding,
-  fullWidth,
-}: Props) {
+export default function Gallery({ images, columns = 3, fullWidth }: Props) {
   // Intrinsic aspect ratios for each image (computed on load): width / height
   // Used to make each grid row have a uniform height that adapts to the widest
   // image in that row.
@@ -29,27 +22,10 @@ export default function Gallery({
         previewCtx.unregisterGallery(galleryIdRef.current);
     };
   }, [images, previewCtx]);
-  // On <lg screens, enforce 20px horizontal padding; on lg+ use the padding prop unless fullWidth.
-
-  type StyleWithVar = CSSProperties & { ["--gallery-padding"]?: string };
+  // On <lg screens, 20px horizontal padding; on lg+, 60px (consistent with markdown rhythm).
   if (images.length === 1) {
     return (
-      <div
-        className={
-          fullWidth ? "px-0" : "px-5 lg:[padding-inline:var(--gallery-padding)]"
-        }
-        style={
-          {
-            ...(fullWidth
-              ? {}
-              : {
-                  ["--gallery-padding"]:
-                    typeof padding === "number" ? `${padding}px` : padding,
-                }),
-            marginBottom: "var(--content-spacing, 1.5rem)",
-          } as StyleWithVar
-        }
-      >
+      <div className={`mb-5 lg:mb-15 ${fullWidth ? "px-0" : "px-5 lg:px-15"}`}>
         <img
           src={images[0]}
           className="w-full cursor-pointer"
@@ -62,23 +38,12 @@ export default function Gallery({
 
   return (
     <div
-      className={
+      className={`mb-5 lg:mb-15 ${
         fullWidth
           ? "grid gap-0.5 items-start px-0"
-          : "grid gap-0.5 items-start px-5 lg:[padding-inline:var(--gallery-padding)]"
-      }
-      style={
-        {
-          ...(fullWidth
-            ? {}
-            : {
-                ["--gallery-padding"]:
-                  typeof padding === "number" ? `${padding}px` : padding,
-              }),
-          gridTemplateColumns: `repeat(${columns}, 1fr)`,
-          marginBottom: "var(--content-spacing, 1.5rem)",
-        } as StyleWithVar
-      }
+          : "grid gap-0.5 items-start px-5 lg:px-15"
+      }`}
+      style={{ gridTemplateColumns: `repeat(${columns}, 1fr)` }}
     >
       {images.map((src, i) => {
         // Determine this tile's row boundaries based on the configured column count

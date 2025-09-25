@@ -3,10 +3,16 @@
 .markdown {
   line-height: 1.75;
   font-size: 1rem;
-  padding-bottom: var(--content-spacing, 1.5rem);
+  padding-bottom: 20px;
 }
 
-/* Global vertical rhythm using CSS variable set per-page */
+@media (min-width: 1024px) {
+  .markdown {
+    padding-bottom: 60px;
+  }
+}
+
+/* Global vertical rhythm */
 .markdown h1,
 .markdown h2,
 .markdown p,
@@ -16,7 +22,23 @@
 .markdown pre,
 .markdown code,
 .markdown hr {
-  margin-bottom: var(--content-spacing, 1.5rem);
+  /* for large screens we can rely on the container */
+  padding-inline: 20px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .markdown h1,
+  .markdown h2,
+  .markdown p,
+  .markdown ul,
+  .markdown ol,
+  .markdown blockquote,
+  .markdown pre,
+  .markdown code,
+  .markdown hr {
+    margin-bottom: 60px;
+  }
 }
 
 /* Prevent double spacing by moving final spacing to the container */
@@ -36,6 +58,7 @@
 }
 
 .markdown h3 {
+  padding-inline: 20px;
   font-weight: 600;
 }
 

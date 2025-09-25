@@ -56,7 +56,6 @@ export default function ProjectModal({
     color: project.frontMatter.textColor,
     backgroundColor: project.frontMatter.backgroundColor,
     fontFamily: project.frontMatter.fontFamily,
-    "--content-spacing": project.frontMatter.padding,
   };
 
   return (
@@ -81,9 +80,7 @@ export default function ProjectModal({
             {...project.mdxSource}
             components={{
               ...mdxComponents,
-              Gallery: (props) => (
-                <Gallery padding={project.frontMatter.padding} {...props} />
-              ),
+              Gallery: (props) => <Gallery {...props} />,
             }}
           />
         </div>
