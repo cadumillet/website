@@ -61,6 +61,22 @@ export default function CommandPalette() {
     }
   }, [open]);
 
+  // Allow opening via global event from navbar button
+  useEffect(() => {
+    const onOpen = (_e: Event) => setOpen(true);
+    if (typeof window !== "undefined") {
+      window.addEventListener("command-palette:open", onOpen as EventListener);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener(
+          "command-palette:open",
+          onOpen as EventListener
+        );
+      }
+    };
+  }, []);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return items;
@@ -199,13 +215,13 @@ export default function CommandPalette() {
             Project shortcuts:
           </span>
           <div className="flex items-center gap-2">
-            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
+            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-white text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
               F
             </kbd>
             <span>Fullscreen</span>
           </div>
           <div className="flex items-center gap-2">
-            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-gray-100 text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
+            <kbd className="pointer-events-none flex h-5 w-5 items-center justify-center rounded bg-white text-gray-500 border border-gray-300 font-sans text-[0.7rem] font-medium select-none">
               ?
             </kbd>
             <span>Info</span>
